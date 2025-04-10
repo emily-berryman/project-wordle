@@ -2,16 +2,22 @@ import React from "react";
 import { range } from "../../utils";
 import { checkGuess } from "../../game-helpers";
 
-// takes in a guess and an answer, returns either incorrect, correct or misplaced
+function Cell({ letter, status }) {
+	const className = status ? `cell ${status}` : "cell";
+	return <span className={className}>{letter}</span>;
+}
 
 function Guess({ value, answer }) {
-	const letterStatus = checkGuess(value, answer);
+	// takes in the guess value and answer, returns either incorrect, correct or misplaced
+	const result = checkGuess(value, answer);
 	return (
 		<p className="guess">
 			{range(5).map((num) => (
-				<span className={`cell ${letterStatus?.[num].status || ""}`} key={num}>
-					{letterStatus?.[num].letter || ""}
-				</span>
+				<Cell
+					key={num}
+					letter={result?.[num]?.letter}
+					status={result?.[num]?.status}
+				/>
 			))}
 		</p>
 	);
